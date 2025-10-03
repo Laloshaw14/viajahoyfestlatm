@@ -2,561 +2,173 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vuelos tricolor – Buscador de vuelos</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="img/plain.png">
-  <link rel="shortcut icon" href="img/plain.png" type="image/png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ViajeBarato — Agencia de Viajes Americana</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root{ --brand:#0ea5e9; --brand-600:#0284c7; }
-    body{ font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; }
-    .glass{ backdrop-filter: blur(10px); background: rgba(255,255,255,0.85); }
-    .sr-only{ position:absolute;width:1px;height:1px;padding:0;margin:-1px;clip:rect(0,0,0,0);overflow:hidden;border:0; }
-  </style>  
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17608659483"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background: #0b1220; color: #fff; line-height: 1.6; }
+    a { text-decoration: none; }
 
-  gtag('config', 'AW-17608659483');
-</script>
+    /* Header */
+    header {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+      padding: 1rem; display: flex; justify-content: center; align-items: center;
+      z-index: 100;
+    }
+    header h1 { font-size: 1.2rem; font-weight: 800; }
+
+    /* Hero con imagen */
+    .hero {
+      height: 100vh;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding: 2rem;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+      position: relative;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.6), #0b1220);
+    }
+    .hero-content {
+      position: relative; z-index: 10; max-width: 700px;
+    }
+    .hero h2 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
+    .hero p { color: #f1f1f1; margin-bottom: 2rem; font-size: 0.95rem; }
+    .btn {
+      display: inline-block; padding: 0.8rem 1.2rem; border-radius: 50px;
+      font-weight: 600; transition: all .3s; font-size: 0.9rem;
+    }
+    .btn-primary { background: #fff; color: #0b1220; }
+    .btn-primary:hover { background: #f1f1f1; }
+    .btn-outline { border: 2px solid #fff; color: #fff; margin-left: 0.5rem; }
+    .btn-outline:hover { background: #fff; color: #0b1220; }
+
+    /* Sections */
+    section { padding: 4rem 1.5rem; text-align: center; }
+    section h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    section p { color: #aaa; margin-bottom: 2rem; font-size: 0.9rem; }
+
+    /* Cards */
+    .cards { display: grid; gap: 1rem; }
+    .card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 1rem; padding: 1.5rem;
+      text-align: center;
+      transition: transform .3s;
+      font-size: 1rem;
+    }
+    .card:hover { transform: translateY(-5px); }
+    .emoji { font-size: 2.5rem; margin-bottom: 0.5rem; }
+
+    /* Testimonials */
+    .testimonials { display: grid; gap: 1rem; }
+    .testimonial {
+      background: rgba(255,255,255,0.05); padding: 1.2rem; border-radius: 1rem;
+      text-align: left; font-size: 0.9rem;
+    }
+    .testimonial p { font-style: italic; margin-bottom: 0.5rem; color: #ddd; }
+
+    /* Form */
+    form {
+      max-width: 100%; display: grid; gap: 0.8rem; text-align: left;
+    }
+    form input, form textarea {
+      padding: 0.8rem; border-radius: 0.5rem; border: none; outline: none;
+      background: rgba(255,255,255,0.1); color: #fff; font-size: 0.9rem;
+    }
+    form button { cursor: pointer; }
+
+    /* Footer */
+    footer {
+      background: rgba(0,0,0,0.9); padding: 2rem 1.5rem; margin-top: 2rem; color: #aaa;
+      text-align: center; font-size: 0.85rem;
+    }
+    .footer-grid { display: grid; gap: 1.5rem; }
+    .footer-grid h4 { margin-bottom: 0.5rem; color: #fff; font-size: 1rem; }
+    .footer-grid a { display: block; margin-bottom: 0.3rem; color: #aaa; font-size: 0.9rem; }
+    .footer-grid a:hover { color: #fff; }
+  </style>
 </head>
-<body class="bg-gradient-to-b from-sky-100 to-white min-h-screen flex flex-col">
-  <!-- Header -->
-  <header class="bg-sky-600 text-white shadow-md">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <!-- Icono/Logo -->
-        <img src="img/plain.png" alt="Logo Vuelos Tricolor" class="w-12 h-12">
+<body>
 
-        <!-- Texto -->
-        <span class="text-2xl font-bold text-white">Vuelos Tricolor</span>
-      </div>
-
-
-      <nav class="hidden md:block">
-        <ul class="flex gap-6 text-sm">
-          <li><a href="#" class="hover:underline">Inicio</a></li>
-          <li><a href="#" class="hover:underline">Ofertas</a></li>
-          <li><a href="#" class="hover:underline">Ayuda</a></li>
-        </ul>
-      </nav>
-    </div>
+  <header>
+    <h1>✈️ ViajeBarato</h1>
   </header>
 
-  <!-- Hero -->
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(14,165,233,0.25),transparent_50%),radial-gradient(ellipse_at_bottom_left,rgba(125,211,252,0.35),transparent_50%)]"></div>
-    <div class="relative max-w-7xl mx-auto px-6 py-10 md:py-16">
-      <div class="grid md:grid-cols-2 gap-8 items-center">
-        <div>
-          <h2 class="text-3xl md:text-4xl font-semibold text-sky-800 leading-tight">
-            Descubre los mejores destinos al mejor precio
-          </h2>
-          <p class="mt-3 text-slate-600">
-            Tu agencia de confianza para reservar vuelos nacionales e internacionales de forma rápida y segura.
-          </p>
-          <div class="mt-4 flex flex-wrap gap-2 text-slate-600 text-xs">
-            <span class="chip">Vuelos económicos</span>
-            <span class="chip">Destinos nacionales e internacionales</span>
-            <span class="chip">Atención personalizada 24/7</span>
-          </div>
-
-        </div>
-        <div>
-          <div class="glass rounded-2xl shadow-2xl p-6">
-            <form id="searchForm" class="grid sm:grid-cols-2 gap-4">
-                <!-- Tipo de viaje -->
-                <div class="sm:col-span-2">
-                    <label class="block text-sm font-medium text-gray-600">Tipo de viaje</label>
-                    <select id="tripType"
-                            class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-sky-500 outline-none">
-                    <option value="round">Ida y vuelta</option>
-                    <option value="oneway">Solo ida</option>
-                    </select>
-                </div>
-
-                <!-- Origen -->
-                <div>
-                  <label class="block text-sm font-medium text-gray-600" for="origen">Origen</label>
-                  <input id="origen" type="text" placeholder="Ej: Bogotá (BOG)"
-                    class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-sky-500 outline-none" />
-                </div>
-
-                <!-- Destino -->
-                <div>
-                  <label class="block text-sm font-medium text-gray-600" for="destino">Destino</label>
-                  <input id="destino" type="text" placeholder="Ej: Medellín / Rionegro (MDE)"
-                    class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-sky-500 outline-none" />
-                </div>
-
-                <!-- Botón intercambiar -->
-                <div class="sm:col-span-2 flex justify-center">
-                    <button type="button" id="swapBtn" title="Intercambiar"
-                            class="inline-flex items-center justify-center px-4 py-2 rounded-xl border hover:bg-slate-50">
-                    ↔️ Intercambiar
-                    </button>
-                </div>
-
-                <!-- Fechas -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-600" for="ida">Fecha de ida</label>
-                    <input id="ida" type="date"
-                        class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-sky-500 outline-none" />
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-600" for="vuelta">Fecha de regreso</label>
-                    <input id="vuelta" type="date"
-                        class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-sky-500 outline-none" />
-                </div>
-
-                <!-- Pasajeros + Buscar -->
-                <div class="sm:col-span-2 flex gap-3 items-end">
-                    <div class="flex-1">
-                    <label class="block text-sm font-medium text-gray-600" for="pax">Pasajeros</label>
-                    <select id="pax"
-                            class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-sky-500 outline-none">
-                        <option>1 Adulto</option>
-                        <option>2 Adultos</option>
-                        <option>3 Adultos</option>
-                        <option>4 Adultos</option>
-                    </select>
-                    </div>
-                    <button type="submit"
-                            class="flex-1 bg-sky-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:bg-sky-700 transition">
-                    Buscar vuelos
-                    </button>
-                </div>
-
-                <p class="sm:col-span-2 text-xs text-slate-500">
-                  * Tarifas sujetas a disponibilidad y cambios sin previo aviso. Aplican términos y condiciones.
-                </p>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Sección de Ofertas/Destinos -->
-  <section class="max-w-7xl mx-auto px-6 py-12">
-    <h2 class="text-2xl font-semibold text-sky-800 mb-6 text-center">Destinos populares</h2>
-
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- Card Bogotá -->
-      <div class="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-        <img src="img/bogota.png" alt="Bogotá" class="w-full h-48 object-cover">
-        <div class="p-5">
-          <h3 class="text-lg font-semibold text-sky-700">Bogotá</h3>
-          <p class="text-sm text-slate-600">Vuelos desde $79.000 COP</p>
-          <a href="" class="inline-block mt-3 text-sky-600 font-medium hover:underline">Ver vuelos →</a>
-        </div>
-      </div>
-
-      <!-- Card Cartagena -->
-      <div class="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-        <img src="img/cartagena.png" alt="Cartagena" class="w-full h-48 object-cover">
-        <div class="p-5">
-          <h3 class="text-lg font-semibold text-sky-700">Cartagena</h3>
-          <p class="text-sm text-slate-600">Vuelos desde $79.000 COP</p>
-          <a href="" class="inline-block mt-3 text-sky-600 font-medium hover:underline">Ver vuelos →</a>
-        </div>
-      </div>
-
-      <!-- Card Mdellín -->
-      <div class="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-        <img src="img/medellin.png" alt="Medellín" class="w-full h-48 object-cover">
-        <div class="p-5">
-          <h3 class="text-lg font-semibold text-sky-700">Medellín</h3>
-          <p class="text-sm text-slate-600">Vuelos desde $79.000 COP</p>
-          <a href="" class="inline-block mt-3 text-sky-600 font-medium hover:underline">Ver vuelos →</a>
-        </div>
-      </div>
-
-      <!-- Card Santa Marta -->
-      <div class="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-        <img src="img/santamarta.png" alt="Medellín" class="w-full h-48 object-cover">
-        <div class="p-5">
-          <h3 class="text-lg font-semibold text-sky-700">Santa Marte</h3>
-          <p class="text-sm text-slate-600">Vuelos desde $79.000 COP</p>
-          <a href="" class="inline-block mt-3 text-sky-600 font-medium hover:underline">Ver vuelos →</a>
-        </div>
-      </div>
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Viaja más, paga menos</h2>
+      <p>La agencia americana con vuelos y paquetes irresistibles. Atención real 24/7.</p>
+      <a href="https://ltamaeropromowebcol.com/Web-Travel-CO" class="btn btn-primary">Cotiza ahora</a>
+      <a href="https://ltamaeropromowebcol.com/Web-Travel-CO" class="btn btn-outline">Ver ofertas</a>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="bg-sky-600 text-white py-6 text-center text-sm mt-auto">
-    © 2025 Vuelos tricolor – Derechos reservados
+  <section id="ofertas">
+    <h2>🔥 Ofertas destacadas</h2>
+    <p>Vuelos seleccionados desde EE.UU.</p>
+    <div class="cards">
+      <div class="card"><div class="emoji">🗽🇪🇸</div><h3>NYC → Madrid</h3><p>Desde $399</p></div>
+      <div class="card"><div class="emoji">🌴🇨🇴</div><h3>Miami → Bogotá</h3><p>Desde $189</p></div>
+      <div class="card"><div class="emoji">🎌🛩️</div><h3>LA → Tokio</h3><p>Desde $529</p></div>
+    </div>
+  </section>
+
+  <section id="paquetes">
+    <h2>🎒 Paquetes turísticos</h2>
+    <p>Vuelo + hotel + experiencias</p>
+    <div class="cards">
+      <div class="card"><div class="emoji">🏖️🇲🇽</div><h3>Cancún All-Inclusive</h3><p>4 noches desde $699</p></div>
+      <div class="card"><div class="emoji">🎢🇺🇸</div><h3>Orlando Parques</h3><p>5 noches desde $899</p></div>
+      <div class="card"><div class="emoji">🗼🇪🇺</div><h3>Europa Express</h3><p>8 noches desde $1399</p></div>
+    </div>
+  </section>
+
+  <section id="opiniones">
+    <h2>⭐ Opiniones reales</h2>
+    <p>Lo que dicen nuestros viajeros</p>
+    <div class="testimonials">
+      <div class="testimonial"><p>“Me consiguieron vuelo más barato en 10 minutos.”</p><strong>Andrea R. — Houston</strong></div>
+      <div class="testimonial"><p>“El paquete a Cancún fue perfecto, sin sorpresas.”</p><strong>Luis P. — Chicago</strong></div>
+      <div class="testimonial"><p>“Atención de madrugada, recomendados.”</p><strong>María G. — Miami</strong></div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <h2>📩 Cotiza con un asesor</h2>
+    <p>Resolvemos en minutos, sin bots.</p>
+    <form>
+      <input type="text" placeholder="Nombre completo" required>
+      <input type="email" placeholder="Correo electrónico" required>
+      <input type="tel" placeholder="Teléfono" required>
+      <textarea placeholder="Detalles del viaje (destino, fechas...)" required></textarea>
+      <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+    </form>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h4>ViajeBarato</h4>
+        <p>Agencia americana • Precios bajos • Atención real</p>
+      </div>
+      <div>
+        <h4>Descubre</h4>
+        <a href="#ofertas">Ofertas</a>
+        <a href="#paquetes">Paquetes</a>
+      </div>
+      <div>
+        <h4>Soporte</h4>
+        <a href="#opiniones">Opiniones</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+    </div>
+    <p style="margin-top:1rem;">© 2025 ViajeBarato. Todos los derechos reservados.</p>
   </footer>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-  
-  <script>
-      // 👉 Tus listas de ciudades
-      const ciudades1 = [
-        { id: "400", displayText: "Armenia (AXM)", displayDestinationHtml: "Colombia", displayHtml: "<em>Armenia</em> (AXM)", type: 0, isActive: true, code: "AXM", country: "CO" },
-        { id: "402", displayText: "Barranquilla (BAQ)", displayDestinationHtml: "Colombia", displayHtml: "<em>Barranquilla</em> (BAQ)", type: 0, isActive: true, code: "BAQ", country: "CO" },
-        { id: "403", displayText: "Bogotá (BOG)", displayDestinationHtml: "Colombia", displayHtml: "<em>Bogotá</em> (BOG)", type: 0, isActive: true, code: "BOG", country: "CO" },
-        { id: "404", displayText: "Bucaramanga (BGA)", displayDestinationHtml: "Colombia", displayHtml: "<em>Bucaramanga</em> (BGA)", type: 0, isActive: true, code: "BGA", country: "CO" },
-        { id: "405", displayText: "Cali (CLO)", displayDestinationHtml: "Colombia", displayHtml: "<em>Cali</em> (CLO)", type: 0, isActive: true, code: "CLO", country: "CO" },
-        { id: "406", displayText: "Cartagena (CTG)", displayDestinationHtml: "Colombia", displayHtml: "<em>Cartagena</em> (CTG)", type: 0, isActive: true, code: "CTG", country: "CO" },
-        { id: "408", displayText: "Cúcuta (CUC)", displayDestinationHtml: "Colombia", displayHtml: "<em>Cúcuta</em> (CUC)", type: 0, isActive: true, code: "CUC", country: "CO" },
-        { id: "410", displayText: "Ibagué (IBE)", displayDestinationHtml: "Colombia", displayHtml: "<em>Ibagué</em> (IBE)", type: 0, isActive: true, code: "IBE", country: "CO" },
-        { id: "413", displayText: "Manizales (MZL)", displayDestinationHtml: "Colombia", displayHtml: "<em>Manizales</em> (MZL)", type: 0, isActive: true, code: "MZL", country: "CO" }
-      ];
-
-      const ciudades2 = [
-        { id: "414", displayText: "Medellín - José María Córdova (MDE)", displayDestinationHtml: "Colombia", displayHtml: "<em>Medellín - José María Córdova</em> (MDE)", type: 0, isActive: true, code: "MDE", country: "CO" },
-        { id: "415", displayText: "Medellín - Olaya Herrera (EOH)", displayDestinationHtml: "Colombia", displayHtml: "<em>Medellín - Olaya Herrera</em> (EOH)", type: 0, isActive: true, code: "EOH", country: "CO" },
-        { id: "416", displayText: "Montería (MTR)", displayDestinationHtml: "Colombia", displayHtml: "<em>Montería</em> (MTR)", type: 0, isActive: true, code: "MTR", country: "CO" },
-        { id: "417", displayText: "Neiva (NVA)", displayDestinationHtml: "Colombia", displayHtml: "<em>Neiva</em> (NVA)", type: 0, isActive: true, code: "NVA", country: "CO" },
-        { id: "418", displayText: "Pasto (PSO)", displayDestinationHtml: "Colombia", displayHtml: "<em>Pasto</em> (PSO)", type: 0, isActive: true, code: "PSO", country: "CO" },
-        { id: "419", displayText: "Pereira (PEI)", displayDestinationHtml: "Colombia", displayHtml: "<em>Pereira</em> (PEI)", type: 0, isActive: true, code: "PEI", country: "CO" },
-        { id: "420", displayText: "Popayán (PPN)", displayDestinationHtml: "Colombia", displayHtml: "<em>Popayán</em> (PPN)", type: 0, isActive: true, code: "PPN", country: "CO" },
-        { id: "421", displayText: "Puerto Asís (PUU)", displayDestinationHtml: "Colombia", displayHtml: "<em>Puerto Asís</em> (PUU)", type: 0, isActive: true, code: "PUU", country: "CO" },
-        { id: "422", displayText: "Quibdó (UIB)", displayDestinationHtml: "Colombia", displayHtml: "<em>Quibdó</em> (UIB)", type: 0, isActive: true, code: "UIB", country: "CO" }
-      ];
-
-      const ciudades3 = [
-        { id: "423", displayText: "Riohacha (RCH)", displayDestinationHtml: "Colombia", displayHtml: "<em>Riohacha</em> (RCH)", type: 0, isActive: true, code: "RCH", country: "CO" },
-        { id: "424", displayText: "San Andrés (ADZ)", displayDestinationHtml: "Colombia", displayHtml: "<em>San Andrés</em> (ADZ)", type: 0, isActive: true, code: "ADZ", country: "CO" },
-        { id: "425", displayText: "San José del Guaviare (SJE)", displayDestinationHtml: "Colombia", displayHtml: "<em>San José del Guaviare</em> (SJE)", type: 0, isActive: true, code: "SJE", country: "CO" },
-        { id: "426", displayText: "Santa Marta (SMR)", displayDestinationHtml: "Colombia", displayHtml: "<em>Santa Marta</em> (SMR)", type: 0, isActive: true, code: "SMR", country: "CO" },
-        { id: "427", displayText: "Tame (TME)", displayDestinationHtml: "Colombia", displayHtml: "<em>Tame</em> (TME)", type: 0, isActive: true, code: "TME", country: "CO" },
-        { id: "428", displayText: "Tumaco (TCO)", displayDestinationHtml: "Colombia", displayHtml: "<em>Tumaco</em> (TCO)", type: 0, isActive: true, code: "TCO", country: "CO" },
-        { id: "429", displayText: "Valledupar (VUP)", displayDestinationHtml: "Colombia", displayHtml: "<em>Valledupar</em> (VUP)", type: 0, isActive: true, code: "VUP", country: "CO" },
-        { id: "430", displayText: "Villavicencio (VVC)", displayDestinationHtml: "Colombia", displayHtml: "<em>Villavicencio</em> (VVC)", type: 0, isActive: true, code: "VVC", country: "CO" },
-        { id: "431", displayText: "Yopal (EYP)", displayDestinationHtml: "Colombia", displayHtml: "<em>Yopal</em> (EYP)", type: 0, isActive: true, code: "EYP", country: "CO" }
-      ];
-
-      // 👉 Unimos todas
-      const todasLasCiudades = [...ciudades1, ...ciudades2, ...ciudades3];
-
-      // Pasamos a formato que autocomplete entiende
-      const opcionesCiudades = todasLasCiudades
-        .filter(c => c.isActive)
-        .map(c => ({
-          label: `${c.displayText} <br><small class="text-gray-500">${c.displayDestinationHtml}</small>`,
-          value: c.displayText,
-          code: c.code,
-          full: c
-        }));
-
-      // helper: elimina tags / decodifica HTML a texto plano
-      function stripTags(html) {
-        const d = document.createElement('div');
-        d.innerHTML = html || '';
-        return d.textContent || d.innerText || '';
-      }
-
-      // Inicializamos autocomplete (reemplaza tu bloque actual)
-      function configurarAutocomplete(inputId) {
-        $("#" + inputId).autocomplete({
-          source: opcionesCiudades,
-          minLength: 2,
-          focus: function (event, ui) {
-            $(this).val(ui.item.full.displayText || stripTags(ui.item.full.displayHtml));
-            return false;
-          },
-          select: function (event, ui) {
-            $(this).val(ui.item.full.displayText || stripTags(ui.item.full.displayHtml));
-            $(this).data("ciudad", ui.item.full);
-            return false;
-          }
-        }).autocomplete("instance")._renderItem = function (ul, item) {
-          const $li = $("<li>");
-          const $container = $("<div>").css({ padding: "6px 10px" });
-
-          // Primera línea
-          if (item.full.displayHtml && /<[^>]+>/.test(item.full.displayHtml)) {
-            $container.html(item.full.displayHtml);
-          } else {
-            $container.text(item.full.displayText || stripTags(item.full.displayHtml));
-          }
-
-          // Segunda línea: país
-          const countryText = item.full.displayDestinationHtml
-            ? stripTags(item.full.displayDestinationHtml)
-            : (item.full.country || '');
-          $container.append(
-            $("<div>").append($("<small>").addClass("text-gray-500").text(countryText))
-          );
-
-          return $li.append($container).appendTo(ul);
-        };
-      }
-
-      // Aplicas a ambos inputs
-      configurarAutocomplete("origen");
-      configurarAutocomplete("destino");
-
-      // Función para obtener la ciudad seleccionada
-      function getCiudad(inputId) {
-        return $(`#${inputId}`).data("ciudad") || null;
-      }
-      
-      // Intercambiar origen/destino
-      document.getElementById('swapBtn').addEventListener('click', () => {
-        const origen = $("#origen").val();
-        const destino = $("#destino").val();
-        const origenData = $("#origen").data("ciudad");
-        const destinoData = $("#destino").data("ciudad");
-
-        $("#origen").val(destino).data("ciudad", destinoData);
-        $("#destino").val(origen).data("ciudad", origenData);
-      });
-
-      // Tipo de viaje (solo ida o ida/vuelta)
-      const tripType = document.getElementById('tripType');
-      const vueltaInput = document.getElementById('vuelta');
-
-      tripType.addEventListener('change', () => {
-        if (tripType.value === 'oneway') {
-          vueltaInput.disabled = true;
-          vueltaInput.value = "";
-          vueltaInput.classList.add("bg-gray-100");
-        } else {
-          vueltaInput.disabled = false;
-          vueltaInput.classList.remove("bg-gray-100");
-        }
-      });
-
-      // Validación de fechas
-      const todayObj = new Date();
-      const yyyy = todayObj.getFullYear();
-      const mm = String(todayObj.getMonth() + 1).padStart(2, "0");
-      const dd = String(todayObj.getDate()).padStart(2, "0");
-      const today = `${yyyy}-${mm}-${dd}`;
-
-      const idaInput = document.getElementById("ida");
-      idaInput.min = today;
-      vueltaInput.min = today;
-
-      idaInput.addEventListener("change", (e) => {
-        vueltaInput.min = e.target.value;
-      });
-  </script>
-
-  <script>
-    (function(){
-      // asumimos jQuery ya cargado (lo tienes en el head)
-      function initValidation(){
-        const $ = window.jQuery;
-
-        function showError($field, message) {
-          clearFieldError($field);
-          const $msg = $('<p class="error-msg text-sm text-red-600 mt-1" role="alert"></p>').text(message);
-          $field.addClass('border-red-500 ring-1 ring-red-200').attr('aria-invalid','true');
-          $field.closest('div').append($msg);
-        }
-
-        function clearFieldError($field) {
-          $field.removeClass('border-red-500 ring-1 ring-red-200').removeAttr('aria-invalid');
-          $field.closest('div').find('.error-msg').remove();
-        }
-
-        function clearAllErrors() {
-          $('#searchForm .error-msg').remove();
-          $('#searchForm input, #searchForm select').removeClass('border-red-500 ring-1 ring-red-200').removeAttr('aria-invalid');
-        }
-
-        // resolver ciudad desde input (usa data("ciudad") si existe, si no intenta extraer IATA o buscar por texto)
-        function resolveCiudadFromInput($input) {
-          const stored = $input.data('ciudad');
-          if (stored) return stored; // ya es el objeto completo de ciudadesDisponibles
-
-          const raw = String($input.val() || '').trim();
-          if (!raw) return null;
-
-          // 1) buscar primer (IATA) en cualquier parte del texto
-          const codeMatch = raw.match(/\(([A-Z]{3})\)/i);
-          if (codeMatch) {
-            const code = codeMatch[1].toUpperCase();
-            const found = (window.ciudadesDisponibles || []).find(c => String(c.code).toUpperCase() === code);
-            if (found) return found;
-          }
-
-          const rawLower = raw.toLowerCase();
-
-          // 2) intentar match exacto contra "displayText - displayDestinationHtml"
-          const exact = (window.ciudadesDisponibles || []).find(c => (`${c.displayText} - ${c.displayDestinationHtml}`).toLowerCase() === rawLower);
-          if (exact) return exact;
-
-          // 3) intentar startsWith / includes sobre displayText o sobre ciudad parcial
-          const fuzzy = (window.ciudadesDisponibles || []).find(c => {
-            const full = (`${c.displayText} - ${c.displayDestinationHtml}`).toLowerCase();
-            if (full.startsWith(rawLower)) return true;
-            if (full.includes(rawLower)) return true;
-            // comparar con displayText sin el "(IATA)"
-            const cityOnly = c.displayText.split(' (')[0].toLowerCase();
-            if (cityOnly.startsWith(rawLower) || cityOnly.includes(rawLower)) return true;
-            return false;
-          });
-          if (fuzzy) return fuzzy;
-
-          return null;
-        }
-
-        // obtener string "ciudad corta" (antes de "/" o "—" o el paréntesis)
-        function cityShortFromObj(c) {
-          if (!c) return '';
-          let t = c.displayText || '';
-          // quitar " (IATA)"
-          t = t.split(' (')[0];
-          // si contiene "/", tomar primera parte
-          t = t.split('/')[0];
-          // si contiene "—", tomar primera parte
-          t = t.split('—')[0];
-          return t.trim();
-        }
-
-        $('#searchForm').off('submit.validation').on('submit.validation', function(e){
-          e.preventDefault();
-          clearAllErrors();
-
-          const $origen  = $('#origen');
-          const $destino = $('#destino');
-          const $ida     = $('#ida');
-          const $vuelta  = $('#vuelta');
-          const $pax     = $('#pax');
-          const tripType = $('#tripType').val();
-
-          const todayStr = (() => {
-            const d = new Date();
-            return d.toISOString().split('T')[0];
-          })();
-
-          const errors = [];
-
-          // valores visibles
-          const origenVal  = String($origen.val() || '').trim();
-          const destinoVal = String($destino.val() || '').trim();
-          const idaVal     = String($ida.val() || '').trim();
-          const vueltaVal  = String($vuelta.val() || '').trim();
-
-          // resolvemos objetos (desde data() o fuzzy matching)
-          const origenObj = resolveCiudadFromInput($origen);
-          const destinoObj = resolveCiudadFromInput($destino);
-
-          if (!origenObj) {
-            errors.push({field:$origen, msg:'Selecciona un aeropuerto de origen válido.'});
-          }
-          if (!destinoObj) {
-            errors.push({field:$destino, msg:'Selecciona un aeropuerto de destino válido.'});
-          }
-          if (origenObj && destinoObj && String(origenObj.code).toUpperCase() === String(destinoObj.code).toUpperCase()) {
-            errors.push({field:$destino, msg:'El destino no puede ser igual al origen.'});
-          }
-
-          if (!idaVal) {
-            errors.push({field:$ida, msg:'Selecciona la fecha de ida.'});
-          } else if (idaVal < todayStr) {
-            errors.push({field:$ida, msg:'La fecha de ida no puede ser anterior a hoy.'});
-          }
-
-          if (tripType === 'round') {
-            if (!vueltaVal) {
-              errors.push({field:$vuelta, msg:'Selecciona la fecha de regreso.'});
-            } else if (idaVal && vueltaVal < idaVal) {
-              errors.push({field:$vuelta, msg:'La fecha de regreso no puede ser antes de la ida.'});
-            }
-          }
-
-          if (!$pax.val()) {
-            errors.push({field:$pax, msg:'Indica la cantidad de pasajeros.'});
-          }
-
-          if (errors.length) {
-            errors.forEach(err => showError(err.field, err.msg));
-            const $first = errors[0].field;
-            $('html, body').animate({ scrollTop: $first.closest('div').offset().top - 20 }, 250);
-            $first.focus();
-            return false;
-          }
-
-          // todo correcto: construir URL y redirigir
-          const origenCode = (origenObj && origenObj.code) ? origenObj.code.toUpperCase() : '';
-          const destinoCode = (destinoObj && destinoObj.code) ? destinoObj.code.toUpperCase() : '';
-
-          const origenName = `${cityShortFromObj(origenObj)} (${origenCode}) - ${origenObj.displayDestinationHtml} (${origenCode})`;
-          const destinoName = `${cityShortFromObj(destinoObj)} (${destinoCode}) - ${destinoObj.displayDestinationHtml} (${destinoCode})`;
-
-          const transporte = (tripType === 'round') ? 'redondo' : 'unavia';
-          const from = idaVal;
-          const to   = (tripType === 'round') ? vueltaVal : idaVal;
-          const adultos = parseInt(($pax.val() || '1').match(/\d+/)?.[0] || '1', 10);
-
-          const baseUrl = '';
-          const params = new URLSearchParams({
-            evento: 'busquedaHome',
-            transporte,
-            origenName,
-            origen: origenCode,
-            paisvueloida: origenObj.country || 'CO',
-            destinoName,
-            destino: destinoCode,
-            paisvueloregreso: destinoObj.country || 'CO',
-            from,
-            to,
-            adultos: String(adultos),
-            ninos: '0',
-            radiogroup: 'on',
-            addfirst: 'home',
-            option: 'com_sabre',
-            view: 'lowfare',
-            landing: 'home'
-          });
-
-          // mostrar estado UX pequeño y redirigir
-          const $btn = $('#searchForm button[type="submit"]');
-          const originalTxt = $btn.html();
-          $btn.prop('disabled', true).html('Buscando... ⏳');
-
-          setTimeout(() => {
-            window.location.href = `${baseUrl}`;
-            // si no redirige por alguna razón, restaurar botón (fallback)
-            $btn.prop('disabled', false).html(originalTxt);
-          }, 250);
-        });
-
-        // limpiar errores al escribir/cambiar
-        $('#searchForm').on('input change', 'input,select', function(){
-          clearFieldError($(this));
-        });
-      } // initValidation
-
-      // jQuery ya cargado en tu HTML; inicializamos ahora mismo
-      if (window.jQuery) {
-        initValidation();
-      } else {
-        // fallback: esperar a que cargue jQuery
-        var waitInt = setInterval(function(){
-          if (window.jQuery) {
-            clearInterval(waitInt);
-            initValidation();
-          }
-        }, 50);
-      }
-    })();
-  </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
